@@ -9,6 +9,8 @@ function App() {
 		genre: '',
 	});
 
+
+
 	const handleChange = (event) => {
 		const { name, value } = event.target;
 
@@ -24,10 +26,16 @@ function App() {
 		let amountAdd = 25;
 
 		if (data.fullName) {
-			value += amountAdd;
+			const explodeString = data.fullName.split(' ');
+			if(explodeString[1]){
+				value += amountAdd;
+			}
 		}
 		if (data.email) {
-			value += amountAdd;
+			let pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			if (pattern.test(data.email)) {
+				value += amountAdd;
+			}	
 		}
 		if (data.maritalStatus) {
 			value += amountAdd;
@@ -35,12 +43,20 @@ function App() {
 		if (data.genre) {
 			value += amountAdd;
 		}
-    console.log({value})
-
     return value;
 	};
 
   calculateProgress();
+
+	const handleClick = () => {
+		alert('Formulário enviado com sucesso!')
+		setData({
+			fullName: '',
+			email: '',
+			maritalStatus: '',
+			genre: '',
+		});
+	}
 
 	return (
 		<>
@@ -98,7 +114,7 @@ function App() {
 							Feminino
 						</span>
 					</div>
-					<button>Enviar Formulário</button>
+					<button onClick={handleClick} disabled={calculateProgress() !== 100}>Enviar Formulário</button>
 				</main>
 			</div>
 		</>
